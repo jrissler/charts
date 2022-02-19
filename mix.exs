@@ -5,7 +5,7 @@ defmodule Charts.MixProject do
     [
       app: :charts,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
@@ -30,9 +30,9 @@ defmodule Charts.MixProject do
     [
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-      {:credo, "~> 1.5.5", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.23.0", only: :dev, runtime: false},
-      {:excoveralls, "~> 0.14.0", only: :test}
+      {:credo, "~> 1.6.3", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.28.0", only: :dev, runtime: false},
+      {:excoveralls, "~> 0.14.4", only: :test}
     ]
   end
 end
