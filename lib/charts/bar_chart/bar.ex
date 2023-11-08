@@ -3,7 +3,7 @@ defmodule Charts.BarChart.Bar do
   A struct representing bar-level display properties.
   """
 
-  defstruct [:height, :offset, :label, :bar_height, :bar_offset, :bar_width, :fill_color]
+  defstruct [:height, :offset, :label, :bar_height, :bar_offset, :bar_width, :fill_color, :value]
 
   @type t() :: %__MODULE__{
           height: Float.t(),
@@ -12,6 +12,7 @@ defmodule Charts.BarChart.Bar do
           bar_height: Float.t(),
           bar_offset: Float.t(),
           bar_width: Float.t(),
-          fill_color: atom()
+          fill_color: atom(),
+          value: integer()
         }
 end

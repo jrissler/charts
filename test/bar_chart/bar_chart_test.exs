@@ -25,6 +25,15 @@ defmodule Charts.BarChartTest do
 
     test "returns bar labels" do
       bars = Enum.map(BarChart.bars(@chart), & &1.label)
+      labels = Enum.map(@data, & &1.name)
+
+      assert bars
+             |> Enum.zip(labels)
+             |> Enum.all?(fn {actual, expected} -> actual == expected end)
+    end
+
+    test "returns bar original value" do
+      bars = Enum.map(BarChart.bars(@chart), & &1.value)
       labels = Enum.map(@data, &hd(&1.values))
 
       assert bars

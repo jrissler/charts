@@ -17,13 +17,14 @@ defimpl Charts.BarChart, for: Charts.BaseChart do
       bar_width = hd(datum.values) / max * 100
 
       %Bar{
-        label: hd(datum.values),
+        label: datum.name,
         height: height,
         offset: offset,
         bar_offset: offset + margin,
         bar_height: height / 2.0,
         bar_width: bar_width,
-        fill_color: datum.fill_color
+        fill_color: datum.fill_color,
+        value: hd(datum.values)
       }
     end)
   end
