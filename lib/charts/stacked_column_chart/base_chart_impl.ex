@@ -44,9 +44,9 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
 
   defp build_rectangles_for_column(column) do
     column.parts
-    |> Enum.reject(fn {_color, height} -> height == 0 end)
-    |> Enum.reduce([], fn {color, height}, acc ->
-      percentage = height / Enum.sum(Map.values(column.parts)) * 100
+    |> Enum.reject(fn {_color, value} -> value == 0 end)
+    |> Enum.reduce([], fn {color, value}, acc ->
+      percentage = value / Enum.sum(Map.values(column.parts)) * 100
       rectangle_height = percentage / 100 * column.column_height
 
       case acc do
@@ -57,7 +57,7 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
             fill_color: color,
             width: column.width,
             height: rectangle_height,
-            label: height
+            label: value
           }
 
           [new_rectangle | acc]
@@ -69,7 +69,7 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
             fill_color: color,
             width: column.width,
             height: rectangle_height,
-            label: height
+            label: value
           }
 
           [new_rectangle]
