@@ -17,7 +17,7 @@ defimpl Charts.BarChart, for: Charts.BaseChart do
       bar_width = hd(datum.values) / max * 100
 
       %Bar{
-        label: datum.name,
+        label: hd(datum.values),
         height: height,
         offset: offset,
         bar_offset: offset + margin,

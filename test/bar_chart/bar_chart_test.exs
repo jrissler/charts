@@ -25,7 +25,7 @@ defmodule Charts.BarChartTest do
 
     test "returns bar labels" do
       bars = Enum.map(BarChart.bars(@chart), & &1.label)
-      labels = Enum.map(@data, & &1.name)
+      labels = Enum.map(@data, &hd(&1.values))
 
       assert bars
              |> Enum.zip(labels)
