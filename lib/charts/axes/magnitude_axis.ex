@@ -2,7 +2,7 @@ defmodule Charts.Axes.MagnitudeAxis do
   @moduledoc """
   Exposes a struct representing configuration for an axis that has values that increase in a particular direction
   """
-  defstruct [:min, :max, :step, :label, grid_lines: &__MODULE__.default_grid_lines_fun/2]
+  defstruct [:min, :max, :step, :label, :format, grid_lines: &__MODULE__.default_grid_lines_fun/2]
   @type min :: number()
   @type max :: number()
   @type step :: integer()
@@ -19,6 +19,7 @@ defmodule Charts.Axes.MagnitudeAxis do
           max: number(),
           step: integer(),
           label: String.t() | nil,
+          format: Atom.t() | nil,
           grid_lines: grid_lines_func
         }
 
