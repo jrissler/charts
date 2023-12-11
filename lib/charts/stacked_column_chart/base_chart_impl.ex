@@ -16,7 +16,7 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
     |> Enum.with_index()
     |> Enum.map(fn {datum, index} ->
       offset = index * width
-      column_height = (Map.values(datum.values) |> Enum.sum()) / max * 100
+      column_height = Enum.sum(values(datum.values)) / max * 100
 
       %MultiColumn{
         width: width,
@@ -39,15 +39,14 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
   defp rectangles_from_columns([]), do: []
 
   defp rectangles_from_columns(multi_columns) do
-    multi_columns
-    |> Enum.flat_map(&build_rectangles_for_column(&1))
+    Enum.flat_map(multi_columns, &build_rectangles_for_column(&1))
   end
 
   defp build_rectangles_for_column(column) do
     column.parts
     |> Enum.reject(fn {_color, value} -> value == 0 end)
     |> Enum.reduce([], fn {color, value}, acc ->
-      percentage = value / Enum.sum(Map.values(column.parts)) * 100
+      percentage = value / Enum.sum(values(column.parts)) * 100
       rectangle_height = percentage / 100 * column.column_height
 
       case acc do
@@ -77,4 +76,7 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
       end
     end)
   end
+
+  defp values(values) when is_map(values), do: Map.values(values)
+  defp values(values), do: Keyword.values(values)
 end

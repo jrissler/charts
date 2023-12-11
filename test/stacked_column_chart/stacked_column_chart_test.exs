@@ -1,14 +1,13 @@
 defmodule Charts.StackedColumnChartTest do
   @moduledoc false
 
-  alias Charts.{
-    BaseChart,
-    BaseDatum,
-    StackedColumnChart,
-    StackedColumnChart.Rectangle
-  }
+  alias Charts.Axes.BaseAxes
+  alias Charts.Axes.MagnitudeAxis
+  alias Charts.BaseChart
+  alias Charts.BaseDatum
+  alias Charts.StackedColumnChart
+  alias Charts.StackedColumnChart.Rectangle
 
-  alias Charts.Axes.{BaseAxes, MagnitudeAxis}
   use ExUnit.Case
 
   @y_axis %MagnitudeAxis{min: 0, max: 300}
@@ -35,6 +34,28 @@ defmodule Charts.StackedColumnChartTest do
       values: %{blueberry: 1, orange: 5, apple: 10, watermelon: 15, banana: 20}
     }
   ]
+  @keyword_list_data [
+    %BaseDatum{
+      name: "column 1",
+      values: [blueberry: 1, orange: 5, apple: 10, watermelon: 15, banana: 20]
+    },
+    %BaseDatum{
+      name: "column 2",
+      values: [blueberry: 50, orange: 40, apple: 30, watermelon: 20, banana: 10]
+    },
+    %BaseDatum{
+      name: "column 3",
+      values: [blueberry: 3, orange: 4, apple: 5, watermelon: 1, banana: 2]
+    },
+    %BaseDatum{
+      name: "column 4",
+      values: [blueberry: 50, orange: 40, apple: 30, watermelon: 20, banana: 10]
+    },
+    %BaseDatum{
+      name: "column 5",
+      values: [blueberry: 1, orange: 5, apple: 10, watermelon: 15, banana: 20]
+    }
+  ]
   @colors %{
     blueberry: "#4096EE",
     orange: "#FF7400",
@@ -53,6 +74,19 @@ defmodule Charts.StackedColumnChartTest do
     test "returns column labels" do
       columns = Enum.map(StackedColumnChart.columns(@chart), & &1.label)
       labels = Enum.map(@data, & &1.name)
+
+      assert columns
+             |> Enum.zip(labels)
+             |> Enum.all?(fn {actual, expected} -> actual == expected end)
+    end
+
+    test "returns the number of columns that make up the dataset for keyword values data" do
+      assert length(StackedColumnChart.columns(@chart)) == length(@keyword_list_data)
+    end
+
+    test "returns column labels for keyword values data" do
+      columns = Enum.map(StackedColumnChart.columns(@chart), & &1.label)
+      labels = Enum.map(@keyword_list_data, & &1.name)
 
       assert columns
              |> Enum.zip(labels)
