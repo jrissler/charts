@@ -1,10 +1,10 @@
-defmodule Charts.ProgressChartTest do
+defmodule Charts.DonutChartTest do
   use ExUnit.Case
 
   alias Charts.BaseChart
   alias Charts.Gradient
-  alias Charts.ProgressChart
-  alias Charts.ProgressChart.Dataset
+  alias Charts.DonutChart
+  alias Charts.DonutChart.Dataset
 
   @chart %BaseChart{
     title: "A Nice Title",
@@ -33,29 +33,29 @@ defmodule Charts.ProgressChartTest do
 
   describe "data/1" do
     test "takes a base chart with a valid progress chart dataset and returns the dataset" do
-      assert ProgressChart.data(@chart) == @chart.dataset
+      assert DonutChart.data(@chart) == @chart.dataset
     end
 
     test "takes a progress dataset and passes it through unchanged" do
-      assert ProgressChart.data(@chart.dataset) == @chart.dataset
+      assert DonutChart.data(@chart.dataset) == @chart.dataset
     end
 
     test "returns an empty map if a chart's dataset is nil" do
-      assert ProgressChart.data(%BaseChart{dataset: nil}) == %{}
+      assert DonutChart.data(%BaseChart{dataset: nil}) == %{}
     end
   end
 
   describe "progress/1" do
     test "takes a base chart with progress chart dataset and returns the percentage of progress" do
-      assert ProgressChart.progress(@chart) == 50
+      assert DonutChart.progress(@chart) == 50
     end
 
     test "takes a progress chart dataset and returns the percentage of progress" do
-      assert ProgressChart.progress(@chart.dataset) == 50
+      assert DonutChart.progress(@chart.dataset) == 50
     end
 
     test "returns zero if given a chart with an empty dataset" do
-      assert ProgressChart.progress(%BaseChart{dataset: nil}) == 0
+      assert DonutChart.progress(%BaseChart{dataset: nil}) == 0
     end
   end
 end

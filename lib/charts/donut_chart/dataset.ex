@@ -1,6 +1,6 @@
-defmodule Charts.ProgressChart.Dataset do
+defmodule Charts.DonutChart.Dataset do
   @moduledoc """
-  Exposes a struct representing a data set that drives a Chart Progress Chart.
+  Exposes a struct representing a data set that drives a Chart Donut Chart.
   """
   defstruct [
     :background_stroke_color,

@@ -1,7 +1,8 @@
 defimpl Charts.LineChart, for: Charts.BaseChart do
   alias Charts.BaseChart
   alias Charts.ColumnChart.Dataset
-  alias Charts.LineChart.{Line, Point}
+  alias Charts.LineChart.Line
+  alias Charts.LineChart.Point
 
   def points(%BaseChart{dataset: nil}), do: []
   def points(%BaseChart{dataset: dataset}), do: points(dataset)

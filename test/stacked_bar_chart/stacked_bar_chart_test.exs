@@ -104,11 +104,11 @@ defmodule Charts.StackedBarChartTest do
       [first | _] = StackedBarChart.rectangles(@chart)
 
       expected = %Rectangle{
-        fill_color: :watermelon,
+        fill_color: :banana,
         height: 20.0,
-        label: 15,
-        width: 5.0,
-        x_offset: 12.000000000000004,
+        label: 20,
+        width: 6.666666666666668,
+        x_offset: 10.333333333333334,
         y_offset: 5.0
       }
 

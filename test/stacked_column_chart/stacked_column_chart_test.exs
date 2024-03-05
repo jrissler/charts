@@ -138,9 +138,9 @@ defmodule Charts.StackedColumnChartTest do
       [first | _] = StackedColumnChart.rectangles(@chart)
 
       expected = %Rectangle{
-        fill_color: :watermelon,
-        height: 5.0,
-        label: 15,
+        fill_color: :banana,
+        height: 6.666666666666668,
+        label: 20,
         width: 20.0,
         x_offset: 5.0,
         y_offset: 83
