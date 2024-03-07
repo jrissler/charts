@@ -3,11 +3,13 @@ defmodule Charts.DonutChart.DonutSlice do
   A struct representing donut chart slice display properties.
   """
 
-  defstruct [:label, :percentage, :fill_color]
+  defstruct [:label, :value, :percentage, :fill_color, :stroke_dasharray, :stroke_dashoffset]
 
   @type t() :: %__MODULE__{
           label: String.t(),
-          percentage: Float.t(),
-          fill_color: atom()
+          value: Float.t(),
+          fill_color: atom(),
+          stroke_dasharray: String.t(),
+          stroke_dashoffset: String.t()
         }
 end

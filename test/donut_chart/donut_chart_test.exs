@@ -2,10 +2,34 @@ defmodule Charts.DonutChartTest do
   use ExUnit.Case
 
   alias Charts.BaseChart
-  alias Charts.Gradient
+  alias Charts.BaseDatum
   alias Charts.DonutChart
   alias Charts.DonutChart.Dataset
+  alias Charts.DonutChart.DonutSlice
+  alias Charts.Gradient
 
+  @data [
+    %BaseDatum{
+      name: "slice 1",
+      values: [10]
+    },
+    %BaseDatum{
+      name: "slice 2",
+      values: [20]
+    },
+    %BaseDatum{
+      name: "slice 3",
+      values: [30]
+    },
+    %BaseDatum{
+      name: "slice 4",
+      values: [40]
+    },
+    %BaseDatum{
+      name: "slice 5",
+      values: [50]
+    }
+  ]
   @chart %BaseChart{
     title: "A Nice Title",
     colors: %{
@@ -19,43 +43,32 @@ defmodule Charts.DonutChartTest do
         end_color: "#005290"
       }
     },
-    dataset: %Dataset{
-      background_stroke_color: :gray,
-      label: "A Nice Second Title",
-      secondary_label: "Secondary label",
-      to_value: 100,
-      current_value: 50,
-      percentage_text_fill_color: :blue_gradient,
-      percentage_fill_color: :light_blue_gradient,
-      label_fill_color: :blue_gradient
-    }
+    dataset: %Dataset{data: @data}
   }
 
-  describe "data/1" do
-    test "takes a base chart with a valid progress chart dataset and returns the dataset" do
-      assert DonutChart.data(@chart) == @chart.dataset
+  describe "slices/1" do
+    test "takes a base chart with nil dataset and returns the empty list" do
+      assert DonutChart.slices(%BaseChart{dataset: nil}) == []
     end
 
-    test "takes a progress dataset and passes it through unchanged" do
-      assert DonutChart.data(@chart.dataset) == @chart.dataset
+    test "takes a base chart with a empty data and returns the empty list" do
+      assert DonutChart.slices(%BaseChart{dataset: %Dataset{data: []}}) == []
     end
 
-    test "returns an empty map if a chart's dataset is nil" do
-      assert DonutChart.data(%BaseChart{dataset: nil}) == %{}
-    end
-  end
+    test "takes a base chart with a valid donut chart dataset and returns the dataset" do
+      chart_data = DonutChart.slices(@chart)
+      assert length(chart_data) == length(@data)
 
-  describe "progress/1" do
-    test "takes a base chart with progress chart dataset and returns the percentage of progress" do
-      assert DonutChart.progress(@chart) == 50
-    end
+      last_slice = List.last(chart_data)
 
-    test "takes a progress chart dataset and returns the percentage of progress" do
-      assert DonutChart.progress(@chart.dataset) == 50
-    end
-
-    test "returns zero if given a chart with an empty dataset" do
-      assert DonutChart.progress(%BaseChart{dataset: nil}) == 0
+      assert last_slice == %DonutSlice{
+               label: "slice 1",
+               value: 15.0,
+               percentage: nil,
+               fill_color: "12",
+               stroke_dasharray: "15.0 85.0",
+               stroke_dashoffset: "125"
+             }
     end
   end
 end

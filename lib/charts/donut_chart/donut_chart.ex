@@ -1,9 +1,9 @@
 defprotocol Charts.DonutChart do
-  @type data_container :: Charts.chart() | Charts.DonutChart.Dataset.t()
+  @spec slices(Charts.chart() | Charts.DonutChart.Dataset.t()) ::
+          list(Charts.DonutChart.DonutSlice.t())
 
-  @spec progress(data_container) :: non_neg_integer()
-  def progress(chart)
-
-  @spec data(data_container) :: Charts.DonutChart.Dataset.t()
-  def data(chart)
+  @doc """
+  Returns a list of the `Charts.DonutChart.DonutSlice.t()` that should be rendered by the chart display adapter
+  """
+  def slices(chart)
 end

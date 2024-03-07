@@ -6,6 +6,7 @@ defimpl Charts.StackedBarChart, for: Charts.BaseChart do
 
   def rows(%BaseChart{dataset: nil}), do: []
   def rows(%BaseChart{dataset: dataset}), do: rows(dataset)
+
   def rows(%Dataset{data: []}), do: []
 
   def rows(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do

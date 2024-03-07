@@ -1,22 +1,42 @@
 defimpl Charts.DonutChart, for: Charts.BaseChart do
   alias Charts.BaseChart
+  alias Charts.DonutChart.DonutSlice
   alias Charts.DonutChart.Dataset
 
-  def progress(%BaseChart{dataset: nil}), do: 0
+  # svg circles start at 3 o'clock position, we're moving it back 25% to top
+  @initial_offset 25
 
-  def progress(%BaseChart{dataset: %Dataset{} = dataset}) do
-    round(100 * dataset.current_value / dataset.to_value)
+  def slices(%BaseChart{dataset: nil}), do: []
+  def slices(%BaseChart{dataset: dataset}), do: slices(dataset)
+
+  def slices(%Dataset{data: []}), do: []
+
+  def slices(%Dataset{data: data}) do
+    total =
+      data
+      |> Enum.map(&hd(&1.values))
+      |> Enum.sum()
+
+    Enum.reduce(data, [], fn datum, acc -> [add_donut_slice(datum, acc, total) | acc] end)
   end
 
-  def data(%BaseChart{dataset: nil}), do: %{}
-  def data(%BaseChart{dataset: dataset}), do: dataset
-end
+  defp add_donut_slice(datum, acc, total) do
+    # / always returns float
+    length = Kernel./(total, hd(datum.values))
 
-defimpl Charts.DonutChart, for: Charts.DonutChart.Dataset do
-  alias Charts.DonutChart.Dataset
-  def data(%Dataset{} = data), do: data
+    previous_offsets =
+      acc
+      |> Enum.map(& &1.value)
+      |> Enum.sum()
 
-  def progress(%Dataset{to_value: to_value, current_value: current_value}) do
-    round(100 * current_value / to_value)
+    current_offset = 100 - previous_offsets + @initial_offset
+
+    %DonutSlice{
+      label: datum.name,
+      value: length,
+      fill_color: "12",
+      stroke_dasharray: "#{length} #{100 - length}",
+      stroke_dashoffset: "#{current_offset}"
+    }
   end
 end
