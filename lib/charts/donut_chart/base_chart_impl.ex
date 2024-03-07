@@ -34,7 +34,7 @@ defimpl Charts.DonutChart, for: Charts.BaseChart do
     %DonutSlice{
       label: datum.name,
       value: length,
-      fill_color: "12",
+      fill_color: datum.fill_color,
       stroke_dasharray: "#{length} #{100 - length}",
       stroke_dashoffset: "#{current_offset}"
     }

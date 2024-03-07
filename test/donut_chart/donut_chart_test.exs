@@ -11,23 +11,28 @@ defmodule Charts.DonutChartTest do
   @data [
     %BaseDatum{
       name: "slice 1",
-      values: [10]
+      values: [10],
+      fill_color: :gray
     },
     %BaseDatum{
       name: "slice 2",
-      values: [20]
+      values: [20],
+      fill_color: :light_blue_gradient
     },
     %BaseDatum{
       name: "slice 3",
-      values: [30]
+      values: [30],
+      fill_color: :gray
     },
     %BaseDatum{
       name: "slice 4",
-      values: [40]
+      values: [40],
+      fill_color: :blue_gradient
     },
     %BaseDatum{
       name: "slice 5",
-      values: [50]
+      values: [50],
+      fill_color: :gray
     }
   ]
   @chart %BaseChart{
@@ -65,7 +70,7 @@ defmodule Charts.DonutChartTest do
                label: "slice 1",
                value: 15.0,
                percentage: nil,
-               fill_color: "12",
+               fill_color: :gray,
                stroke_dasharray: "15.0 85.0",
                stroke_dashoffset: "125"
              }
