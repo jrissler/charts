@@ -15,7 +15,8 @@ defmodule Charts.BaseChart do
         }
 
   defimpl Charts.Chart, for: __MODULE__ do
-    alias Charts.{BaseChart, Gradient}
+    alias Charts.BaseChart
+    alias Charts.Gradient
 
     def title(%BaseChart{title: nil}), do: ""
     def title(%BaseChart{title: title}), do: title

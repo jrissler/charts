@@ -12,7 +12,7 @@ defmodule Charts.DonutChartTest do
     %BaseDatum{
       name: "slice 1",
       values: [10],
-      fill_color: :gray
+      fill_color: :pink
     },
     %BaseDatum{
       name: "slice 2",
@@ -22,7 +22,7 @@ defmodule Charts.DonutChartTest do
     %BaseDatum{
       name: "slice 3",
       values: [30],
-      fill_color: :gray
+      fill_color: :green
     },
     %BaseDatum{
       name: "slice 4",
@@ -64,15 +64,15 @@ defmodule Charts.DonutChartTest do
       chart_data = DonutChart.slices(@chart)
       assert length(chart_data) == length(@data)
 
-      last_slice = List.last(chart_data)
+      last_slice = List.first(chart_data)
 
       assert last_slice == %DonutSlice{
                label: "slice 1",
-               value: 15.0,
+               value: 6.666666666666667,
                percentage: nil,
                fill_color: :gray,
-               stroke_dasharray: "15.0 85.0",
-               stroke_dashoffset: "125"
+               stroke_dasharray: "6.666666666666667 93.33333333333333",
+               stroke_dashoffset: "25"
              }
     end
   end

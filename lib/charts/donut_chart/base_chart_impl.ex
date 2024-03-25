@@ -17,22 +17,31 @@ defimpl Charts.DonutChart, for: Charts.BaseChart do
       |> Enum.map(&hd(&1.values))
       |> Enum.sum()
 
-    Enum.reduce(data, [], fn datum, acc -> [add_donut_slice(datum, acc, total) | acc] end)
+    data
+    |> Enum.reduce([], fn datum, acc -> [add_donut_slice(datum, acc, total) | acc] end)
+    |> Enum.reverse()
   end
 
   defp add_donut_slice(datum, acc, total) do
-    # / always returns float
-    length = Kernel./(total, hd(datum.values))
+    length =
+      datum.values
+      |> hd()
+      |> Kernel./(total)
+      |> Kernel.*(100)
 
     previous_offsets =
       acc
       |> Enum.map(& &1.value)
       |> Enum.sum()
 
-    current_offset = 100 - previous_offsets + @initial_offset
+    current_offset =
+      case previous_offsets do
+        0 -> @initial_offset
+        _ -> 100 - previous_offsets + @initial_offset
+      end
 
     %DonutSlice{
-      label: datum.name,
+      label: "#{datum.name} (#{hd(datum.values)})",
       value: length,
       fill_color: datum.fill_color,
       stroke_dasharray: "#{length} #{100 - length}",
