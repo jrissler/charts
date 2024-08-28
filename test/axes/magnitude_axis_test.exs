@@ -21,5 +21,22 @@ defmodule Charts.Axes.MagnitudeAxisTest do
                2500
              ]
     end
+
+    test "returns default grid lines with negative numbers" do
+      min_max = {-800, -450}
+
+      assert MagnitudeAxis.default_grid_lines_fun(min_max, 10) == [
+               -765,
+               -730,
+               -695,
+               -660,
+               -625,
+               -590,
+               -555,
+               -520,
+               -485,
+               -450
+             ]
+    end
   end
 end
