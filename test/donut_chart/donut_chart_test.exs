@@ -67,10 +67,10 @@ defmodule Charts.DonutChartTest do
       last_slice = List.first(chart_data)
 
       assert last_slice == %DonutSlice{
-               label: "slice 1",
+               label: "slice 1 (10)",
                value: 6.666666666666667,
                percentage: nil,
-               fill_color: :gray,
+               fill_color: :pink,
                stroke_dasharray: "6.666666666666667 93.33333333333333",
                stroke_dashoffset: "25"
              }
