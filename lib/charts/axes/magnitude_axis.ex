@@ -34,10 +34,11 @@ defmodule Charts.Axes.MagnitudeAxis do
   """
   @spec default_grid_lines_fun({min, max}, step) :: list(Float.t())
   def default_grid_lines_fun({min, max}, step) do
-    integers_to_take = div(max - min, step)
+    rounded_max = Kernel.round(max)
+    integers_to_take = div(rounded_max - min, step)
     take = if integers_to_take > 0, do: integers_to_take, else: integers_to_take * -1
 
-    min..max
+    min..rounded_max
     |> Enum.take_every(take)
     |> Enum.drop(1)
   end
