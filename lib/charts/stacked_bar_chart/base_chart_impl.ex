@@ -17,7 +17,13 @@ defimpl Charts.StackedBarChart, for: Charts.BaseChart do
     |> Enum.with_index()
     |> Enum.map(fn {datum, index} ->
       offset = index * height
-      bar_width = (Map.values(datum.values) |> Enum.sum()) / max * 100
+
+      bar_width =
+        if max > 0 do
+          (Map.values(datum.values) |> Enum.sum()) / max * 100
+        else
+          0
+        end
 
       %MultiBar{
         height: height,
