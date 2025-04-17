@@ -16,11 +16,11 @@ defmodule Charts.StackedBarChartTest do
   @data [
     %BaseDatum{
       name: "column 1",
-      values: %{blueberry: 1, orange: 5, apple: 10, watermelon: 15, banana: 20}
+      values: [{:blueberry, 1}, {:orange, 5}, {:apple, 10}, {:watermelon, 15}, {:banana, 20}]
     },
     %BaseDatum{
       name: "column 2",
-      values: %{blueberry: 50, orange: 40, apple: 30, watermelon: 20, banana: 10}
+      values: [{:blueberry, 50}, {:orange, 40}, {:apple, 30}, {:watermelon, 20}, {:banana, 10}]
     },
     %BaseDatum{
       name: "column 3",

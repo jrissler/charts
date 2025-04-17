@@ -15,12 +15,16 @@ defimpl Charts.StackedBarChart, for: Charts.BaseChart do
 
     data
     |> Enum.with_index()
-    |> Enum.map(fn {datum, index} ->
+    |> Enum.map(fn
+      {%{name: name, values: values}, index} -> {name, values, index}
+      {{_key, %{name: name, values: values}}, index} -> {name, values, index}
+    end)
+    |> Enum.map(fn {name, values, index} ->
       offset = index * height
 
       bar_width =
         if max > 0 do
-          (Map.values(datum.values) |> Enum.sum()) / max * 100
+          Enum.sum(value_list(values)) / max * 100
         else
           0
         end
@@ -29,10 +33,10 @@ defimpl Charts.StackedBarChart, for: Charts.BaseChart do
         height: height,
         offset: offset,
         bar_width: bar_width,
-        label: datum.name,
+        label: name,
         bar_height: height / 2.0,
         bar_offset: offset + margin,
-        parts: datum.values
+        parts: values
       }
     end)
   end
@@ -54,7 +58,7 @@ defimpl Charts.StackedBarChart, for: Charts.BaseChart do
     row.parts
     |> Enum.reject(fn {_color, width} -> width == 0 end)
     |> Enum.reduce([], fn {color, width}, acc ->
-      percentage = width / Enum.sum(Map.values(row.parts)) * 100
+      percentage = width / Enum.sum(value_list(row.parts)) * 100
       rectangle_width = percentage / 100 * row.bar_width
 
       case acc do
@@ -84,4 +88,7 @@ defimpl Charts.StackedBarChart, for: Charts.BaseChart do
       end
     end)
   end
+
+  defp value_list(list_or_map) when is_map(list_or_map), do: Map.values(list_or_map)
+  defp value_list(list_or_map) when is_list(list_or_map), do: Keyword.values(list_or_map)
 end
