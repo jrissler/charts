@@ -3,7 +3,16 @@ defmodule Charts.StackedColumnChart.MultiColumn do
   A struct representing column-level display properties with multiple datum
   """
 
-  defstruct [:width, :column_height, :offset, :label, :column_width, :column_offset, :parts]
+  defstruct [
+    :width,
+    :column_height,
+    :offset,
+    :label,
+    :column_width,
+    :column_offset,
+    :parts,
+    :index
+  ]
 
   @type t() :: %__MODULE__{
           width: Float.t(),
@@ -12,6 +21,7 @@ defmodule Charts.StackedColumnChart.MultiColumn do
           label: String.t(),
           column_width: Float.t(),
           column_offset: Float.t(),
-          parts: list(Map.t())
+          parts: list(Map.t()),
+          index: integer()
         }
 end

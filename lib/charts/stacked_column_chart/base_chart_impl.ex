@@ -10,7 +10,7 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
 
   def columns(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do
     width = 100.0 / Enum.count(data)
-    margin = width / 4.0
+    margin = (width - 28.0) / 2.0
 
     data
     |> Enum.with_index()
@@ -19,11 +19,12 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
       column_height = Enum.sum(values(datum.values)) / max * 100
 
       %MultiColumn{
+        index: index,
         width: width,
         column_height: column_height,
         offset: offset,
         label: datum.name,
-        column_width: width / 2.0,
+        column_width: 28.0,
         column_offset: offset + margin,
         parts: datum.values
       }
@@ -42,38 +43,31 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
     Enum.flat_map(multi_columns, &build_rectangles_for_column(&1))
   end
 
-  defp build_rectangles_for_column(column) do
-    column.parts
+  defp build_rectangles_for_column(%MultiColumn{index: index, column_height: column_height, parts: parts}) do
+    total = Enum.sum(values(parts))
+
+    parts
     |> Enum.reject(fn {_color, value} -> value == 0 end)
     |> Enum.reduce([], fn {color, value}, acc ->
-      percentage = value / Enum.sum(values(column.parts)) * 100
-      rectangle_height = percentage / 100 * column.column_height
+      percentage = value / total * column_height
 
-      case acc do
-        [previous | _rectangles] ->
-          new_rectangle = %Rectangle{
-            x_offset: column.column_offset,
-            y_offset: previous.y_offset - rectangle_height,
-            fill_color: color,
-            width: column.width,
-            height: rectangle_height,
-            label: value
-          }
+      y_offset =
+        case acc do
+          [] -> 100 - percentage
+          [prev | _] -> prev.y_offset - percentage
+        end
 
-          [new_rectangle | acc]
-
-        [] ->
-          new_rectangle = %Rectangle{
-            x_offset: column.column_offset,
-            y_offset: 100 - rectangle_height,
-            fill_color: color,
-            width: column.width,
-            height: rectangle_height,
-            label: value
-          }
-
-          [new_rectangle]
-      end
+      [
+        %Rectangle{
+          x_offset: index,
+          y_offset: y_offset,
+          fill_color: color,
+          width: 1.0,
+          height: percentage,
+          label: value
+        }
+        | acc
+      ]
     end)
   end
 
