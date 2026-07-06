@@ -64,7 +64,9 @@ defmodule Charts.StackedColumnChartTest do
     banana: "#FFFF88"
   }
   @dataset %Charts.ColumnChart.Dataset{data: @data, axes: @axes}
+  @keyword_list_dataset %Charts.ColumnChart.Dataset{data: @keyword_list_data, axes: @axes}
   @chart %BaseChart{title: "title", dataset: @dataset, colors: @colors}
+  @keyword_list_chart %BaseChart{title: "title", dataset: @keyword_list_dataset, colors: @colors}
 
   describe "columns/1" do
     test "returns the number of columns that make up the dataset" do
@@ -80,12 +82,12 @@ defmodule Charts.StackedColumnChartTest do
              |> Enum.all?(fn {actual, expected} -> actual == expected end)
     end
 
-    test "returns the number of columns that make up the dataset for keyword values data" do
-      assert length(StackedColumnChart.columns(@chart)) == length(@keyword_list_data)
+    test "returns the number of columns that make up a keyword-list dataset" do
+      assert length(StackedColumnChart.columns(@keyword_list_chart)) == length(@keyword_list_data)
     end
 
-    test "returns column labels for keyword values data" do
-      columns = Enum.map(StackedColumnChart.columns(@chart), & &1.label)
+    test "returns column labels for a keyword-list dataset" do
+      columns = Enum.map(StackedColumnChart.columns(@keyword_list_chart), & &1.label)
       labels = Enum.map(@keyword_list_data, & &1.name)
 
       assert columns
@@ -100,9 +102,9 @@ defmodule Charts.StackedColumnChartTest do
       assert Enum.all?(column_widths, fn column_width -> column_width == expected_column_width end)
     end
 
-    test "returns bar widths as half of column widths" do
+    test "returns the configured visual column widths" do
       column_widths = Enum.map(StackedColumnChart.columns(@chart), & &1.column_width)
-      expected_column_width = 10.0
+      expected_column_width = 28.0
 
       assert Enum.all?(column_widths, fn column_width -> column_width == expected_column_width end)
     end
@@ -114,9 +116,9 @@ defmodule Charts.StackedColumnChartTest do
       assert column_offsets == expected_column_offsets
     end
 
-    test "returns column_offsets with margins taken into account" do
+    test "returns column offsets with margins taken into account" do
       column_offsets = Enum.map(StackedColumnChart.columns(@chart), & &1.column_offset)
-      expected_column_offsets = [5.0, 25.0, 45.0, 65.0, 85.0]
+      expected_column_offsets = [-4.0, 16.0, 36.0, 56.0, 76.0]
 
       assert column_offsets == expected_column_offsets
     end
@@ -139,11 +141,11 @@ defmodule Charts.StackedColumnChartTest do
 
       expected = %Rectangle{
         fill_color: :banana,
-        height: 6.666666666666668,
+        height: 6.666666666666667,
         label: 20,
-        width: 20.0,
-        x_offset: 5.0,
-        y_offset: 83
+        width: 1.0,
+        x_offset: 0,
+        y_offset: 83.0
       }
 
       assert first == expected

@@ -9,6 +9,7 @@ defmodule Charts.StackedBarChartTest do
   }
 
   alias Charts.Axes.{BaseAxes, MagnitudeAxis}
+
   use ExUnit.Case
 
   @y_axis %MagnitudeAxis{min: 0, max: 300}
@@ -66,11 +67,11 @@ defmodule Charts.StackedBarChartTest do
       assert Enum.all?(row_heights, fn row_height -> row_height == expected_row_height end)
     end
 
-    test "returns multi_bar height as half of bar height" do
-      row_heights = Enum.map(StackedBarChart.rows(@chart), & &1.bar_height)
-      expected_bar_height = 10.0
+    test "returns the configured bar height" do
+      bar_heights = Enum.map(StackedBarChart.rows(@chart), & &1.bar_height)
+      expected_bar_height = 20.0
 
-      assert Enum.all?(row_heights, fn row_height -> row_height == expected_bar_height end)
+      assert Enum.all?(bar_heights, fn bar_height -> bar_height == expected_bar_height end)
     end
 
     test "returns correct row offsets" do
@@ -80,11 +81,11 @@ defmodule Charts.StackedBarChartTest do
       assert row_offsets == expected_row_offsets
     end
 
-    test "returns bar_offsets with margins taken into account" do
+    test "returns bar offsets with margins taken into account" do
       bar_offsets = Enum.map(StackedBarChart.rows(@chart), & &1.bar_offset)
-      expected_row_offsets = [5.0, 25.0, 45.0, 65.0, 85.0]
+      expected_bar_offsets = [3.0, 23.0, 43.0, 63.0, 83.0]
 
-      assert bar_offsets == expected_row_offsets
+      assert bar_offsets == expected_bar_offsets
     end
 
     test "calculates row width as a percent of x-axis max value" do
@@ -104,12 +105,12 @@ defmodule Charts.StackedBarChartTest do
       [first | _] = StackedBarChart.rectangles(@chart)
 
       expected = %Rectangle{
-        fill_color: :banana,
-        height: 20.0,
-        label: 20,
-        width: 6.666666666666668,
-        x_offset: 10.333333333333334,
-        y_offset: 5.0
+        fill_color: :blueberry,
+        height: 14.0,
+        label: 1,
+        width: 0.33,
+        x_offset: 0,
+        y_offset: 3.0
       }
 
       assert first == expected
