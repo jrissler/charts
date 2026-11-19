@@ -3,10 +3,10 @@ defimpl Charts.BarChart, for: Charts.BaseChart do
   alias Charts.BarChart.{Bar, Dataset}
 
   def bars(%BaseChart{dataset: nil}), do: []
-  def bars(%BaseChart{dataset: dataset}), do: bars(dataset)
-  def bars(%Dataset{data: []}), do: []
+  def bars(%BaseChart{dataset: dataset}), do: do_bars(dataset)
+  defp do_bars(%Dataset{data: []}), do: []
 
-  def bars(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do
+  defp do_bars(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do
     height = 100.0 / Enum.count(data)
     margin = height / 4.0
 

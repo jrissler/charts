@@ -3,10 +3,10 @@ defimpl Charts.ColumnChart, for: Charts.BaseChart do
   alias Charts.ColumnChart.{Column, Dataset}
 
   def columns(%BaseChart{dataset: nil}), do: []
-  def columns(%BaseChart{dataset: dataset}), do: columns(dataset)
-  def columns(%Dataset{data: []}), do: []
+  def columns(%BaseChart{dataset: dataset}), do: do_columns(dataset)
+  defp do_columns(%Dataset{data: []}), do: []
 
-  def columns(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do
+  defp do_columns(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do
     width = 100.0 / Enum.count(data)
     margin = width / 4.0
 

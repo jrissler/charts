@@ -5,13 +5,13 @@ defimpl Charts.LineChart, for: Charts.BaseChart do
   alias Charts.LineChart.Point
 
   def points(%BaseChart{dataset: nil}), do: []
-  def points(%BaseChart{dataset: dataset}), do: points(dataset)
-  def points(%Dataset{data: []}), do: []
+  def points(%BaseChart{dataset: dataset}), do: do_points(dataset)
+  defp do_points(%Dataset{data: []}), do: []
 
-  def points(%Dataset{
-        data: data,
-        axes: %{x: %{min: x_min, max: x_max}, y: %{min: y_min, max: y_max}}
-      }) do
+  defp do_points(%Dataset{
+         data: data,
+         axes: %{x: %{min: x_min, max: x_max}, y: %{min: y_min, max: y_max}}
+       }) do
     data
     |> Enum.map(fn datum ->
       x_offset = Enum.at(datum.values, 0) / (x_max - x_min) * 100

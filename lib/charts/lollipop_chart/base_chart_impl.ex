@@ -3,10 +3,10 @@ defimpl Charts.LollipopChart, for: Charts.BaseChart do
   alias Charts.LollipopChart.{Dataset, Lollipop}
 
   def lollipops(%BaseChart{dataset: nil}), do: []
-  def lollipops(%BaseChart{dataset: dataset}), do: lollipops(dataset)
-  def lollipops(%Dataset{data: []}), do: []
+  def lollipops(%BaseChart{dataset: dataset}), do: do_lollipops(dataset)
+  defp do_lollipops(%Dataset{data: []}), do: []
 
-  def lollipops(%Dataset{data: data, axes: %{magnitude_axis: %{min: min, max: max}}}) do
+  defp do_lollipops(%Dataset{data: data, axes: %{magnitude_axis: %{min: min, max: max}}}) do
     height = 100.0 / Enum.count(data)
     range = max - min
 

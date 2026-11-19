@@ -5,10 +5,10 @@ defimpl Charts.StackedColumnChart, for: Charts.BaseChart do
   alias Charts.ColumnChart.Dataset
 
   def columns(%BaseChart{dataset: nil}), do: []
-  def columns(%BaseChart{dataset: dataset}), do: columns(dataset)
-  def columns(%Dataset{data: []}), do: []
+  def columns(%BaseChart{dataset: dataset}), do: do_columns(dataset)
+  defp do_columns(%Dataset{data: []}), do: []
 
-  def columns(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do
+  defp do_columns(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do
     width = 100.0 / Enum.count(data)
     margin = (width - 28.0) / 2.0
 

@@ -9,11 +9,11 @@ defimpl Charts.StackedBarChart, for: Charts.BaseChart do
   @bar_margin 3.0
 
   def rows(%BaseChart{dataset: nil}), do: []
-  def rows(%BaseChart{dataset: dataset}), do: rows(dataset)
+  def rows(%BaseChart{dataset: dataset}), do: do_rows(dataset)
 
-  def rows(%Dataset{data: []}), do: []
+  defp do_rows(%Dataset{data: []}), do: []
 
-  def rows(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do
+  defp do_rows(%Dataset{data: data, axes: %{magnitude_axis: %{max: max}}}) do
     data
     |> Enum.with_index()
     |> Enum.map(fn

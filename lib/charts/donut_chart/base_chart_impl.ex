@@ -7,11 +7,11 @@ defimpl Charts.DonutChart, for: Charts.BaseChart do
   @initial_offset 25
 
   def slices(%BaseChart{dataset: nil}), do: []
-  def slices(%BaseChart{dataset: dataset}), do: slices(dataset)
+  def slices(%BaseChart{dataset: dataset}), do: do_slices(dataset)
 
-  def slices(%Dataset{data: []}), do: []
+  defp do_slices(%Dataset{data: []}), do: []
 
-  def slices(%Dataset{data: data}) do
+  defp do_slices(%Dataset{data: data}) do
     total =
       data
       |> Enum.map(&hd(&1.values))

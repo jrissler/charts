@@ -6,10 +6,10 @@ defimpl Charts.BubbleMatrixChart, for: Charts.BaseChart do
   @maximum_radius 10.0
 
   def bubbles(%BaseChart{dataset: nil}), do: []
-  def bubbles(%BaseChart{dataset: dataset}), do: bubbles(dataset)
-  def bubbles(%Dataset{data: []}), do: []
+  def bubbles(%BaseChart{dataset: dataset}), do: do_bubbles(dataset)
+  defp do_bubbles(%Dataset{data: []}), do: []
 
-  def bubbles(%Dataset{x_categories: x_categories, y_categories: y_categories, data: data}) do
+  defp do_bubbles(%Dataset{x_categories: x_categories, y_categories: y_categories, data: data}) do
     x_offsets = category_offsets(x_categories)
     y_offsets = category_offsets(y_categories)
     max = data |> Enum.map(& &1.value) |> Enum.max()
@@ -30,14 +30,14 @@ defimpl Charts.BubbleMatrixChart, for: Charts.BaseChart do
   end
 
   def x_categories(%BaseChart{dataset: nil}), do: []
-  def x_categories(%BaseChart{dataset: dataset}), do: x_categories(dataset)
-  def x_categories(%Dataset{x_categories: nil}), do: []
-  def x_categories(%Dataset{x_categories: x_categories}), do: x_categories
+  def x_categories(%BaseChart{dataset: dataset}), do: do_x_categories(dataset)
+  defp do_x_categories(%Dataset{x_categories: nil}), do: []
+  defp do_x_categories(%Dataset{x_categories: x_categories}), do: x_categories
 
   def y_categories(%BaseChart{dataset: nil}), do: []
-  def y_categories(%BaseChart{dataset: dataset}), do: y_categories(dataset)
-  def y_categories(%Dataset{y_categories: nil}), do: []
-  def y_categories(%Dataset{y_categories: y_categories}), do: y_categories
+  def y_categories(%BaseChart{dataset: dataset}), do: do_y_categories(dataset)
+  defp do_y_categories(%Dataset{y_categories: nil}), do: []
+  defp do_y_categories(%Dataset{y_categories: y_categories}), do: y_categories
 
   defp category_offsets(categories) do
     size = 100.0 / Enum.count(categories)
